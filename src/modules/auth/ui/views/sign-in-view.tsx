@@ -16,9 +16,9 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { OctagonAlertIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { FcGoogle } from "react-icons/fc";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -26,7 +26,6 @@ const formSchema = z.object({
 });
 
 export const SignInView = () => {
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -42,11 +41,30 @@ export const SignInView = () => {
     setError(null);
     setPending(true);
     authClient.signIn.email(
-      { email: data.email, password: data.password },
+      { email: data.email, password: data.password,
+        callbackURL:"/",
+       },
+      {
+        onSuccess: () => {
+          setPending(false);
+        },
+        onError: ({ error }) => {
+          setPending(false);
+          setError(error.message);
+        },
+      }
+    );
+  };
+  const onGoogle = async (provider:"google") => {
+    setError(null);
+    setPending(true);
+    authClient.signIn.social(
+      { provider: provider,
+        callbackURL:"/",
+       },
       {
         onSuccess: ()=>{
           setPending(false);
-          router.push("/");
         },
         onError: ({ error })=>{
           setPending(false);
@@ -66,7 +84,7 @@ export const SignInView = () => {
                 <div className="flex flex-col items-center text-center">
                   <h1 className="text-2xl font-bold">Welcome</h1>
                   <p className="text-muted-foreground text-balance">
-                    Log in to your account
+                    Login to your account
                   </p>
                 </div>
                 <div className="grid gap-3">
@@ -122,7 +140,16 @@ export const SignInView = () => {
                   </span>
                 </div>
                 <div className="grid grid-cols-1 gap-4">
-                  <Button variant="outline" type="button" className="w-full">
+                  <Button
+                    disabled={pending}
+                    onClick={() => 
+                      onGoogle("google")
+                    }
+                    variant="outline"
+                    type="button"
+                    className="w-full"
+                  >
+                    <FcGoogle/>
                     Google
                   </Button>
                 </div>

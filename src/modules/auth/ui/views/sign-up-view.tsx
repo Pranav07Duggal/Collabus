@@ -11,27 +11,28 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { FcGoogle } from "react-icons/fc";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { OctagonAlertIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 
-const formSchema = z.object({
-  name: z.string().min(1, {message: "Name is required"}),
-  email: z.string().email(),
-  password: z.string().min(1, { message: "Password is required" }),
-  confirmPassword: z.string().min(1, { message: "Password is required" }),
-}).refine((data) => data.password===data.confirmPassword,{
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
+const formSchema = z
+  .object({
+    name: z.string().min(1, { message: "Name is required" }),
+    email: z.string().email(),
+    password: z.string().min(1, { message: "Password is required" }),
+    confirmPassword: z.string().min(1, { message: "Password is required" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 export const SignUpView = () => {
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -49,16 +50,37 @@ export const SignUpView = () => {
     setError(null);
     setPending(true);
     authClient.signUp.email(
-      { name: data.name,email: data.email, password: data.password },
       {
-        onSuccess: ()=>{
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        callbackURL: "/",
+      },
+      {
+        onSuccess: () => {
           setPending(false);
-          router.push("/");
         },
-        onError: ({ error })=>{
+        onError: ({ error }) => {
           setPending(false);
-          setError(error.message)
-        }
+          setError(error.message);
+        },
+      }
+    );
+  };
+
+  const onGoogle = async (provider: "google") => {
+    setError(null);
+    setPending(true);
+    authClient.signIn.social(
+      { provider: provider, callbackURL: "/" },
+      {
+        onSuccess: () => {
+          setPending(false);
+        },
+        onError: ({ error }) => {
+          setPending(false);
+          setError(error.message);
+        },
       }
     );
   };
@@ -84,11 +106,7 @@ export const SignUpView = () => {
                       <FormItem>
                         <FormLabel>Name</FormLabel>
                         <FormControl>
-                          <Input
-                            type="name"
-                            placeholder="Name"
-                            {...field}
-                          />
+                          <Input type="name" placeholder="Name" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -167,7 +185,14 @@ export const SignUpView = () => {
                   </span>
                 </div>
                 <div className="grid grid-cols-1 gap-4">
-                  <Button variant="outline" type="button" className="w-full">
+                  <Button
+                    disabled={pending}
+                    onClick={() => onGoogle("google")}
+                    variant="outline"
+                    type="button"
+                    className="w-full"
+                  >
+                    <FcGoogle/>
                     Google
                   </Button>
                 </div>
