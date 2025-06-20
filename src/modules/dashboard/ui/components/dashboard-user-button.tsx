@@ -85,7 +85,7 @@ const DashboardUserButton = () => {
         <div className="flex items-center gap-x-3 overflow-hidden w-full">
           {data.user.image ? (
             <Avatar>
-              <AvatarImage src={data.user.image} />
+              <AvatarImage src={data.user.image} referrerPolicy="no-referrer" />
             </Avatar>
           ) : (
             <GeneratedAvatar
