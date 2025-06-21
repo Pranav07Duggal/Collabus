@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { GeneratedAvatar } from "@/components/generated.avatar";
+import { GeneratedAvatar } from "@/components/generated-avatar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -35,7 +35,7 @@ const AgentForm = ({ onSuccess, onCancel, initialValues }: Props) => {
     trpc.agents.create.mutationOptions({
       onSuccess: () => {
         QueryClient.invalidateQueries(
-            trpc.agents.getMany.queryOptions(),
+            trpc.agents.getMany.queryOptions({}),
         );
         if (initialValues?.id) {
             QueryClient.invalidateQueries(
