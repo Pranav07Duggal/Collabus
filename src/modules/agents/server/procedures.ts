@@ -125,12 +125,13 @@ export const agentsRouter = createTRPCRouter({
   create: protectedProcedure
     .input(agentsInsertSchema)
     .mutation(async ({ input, ctx }) => {
-      const [createAgent] = await db
+      const [createdAgent] = await db
         .insert(agents)
         .values({
           ...input,
           userId: ctx.auth.user.id,
         })
         .returning();
+        return createdAgent;
     }),
 });
