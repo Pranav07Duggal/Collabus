@@ -145,7 +145,7 @@ const MeetingForm = ({ onSuccess, onCancel, initialValues }: Props) => {
                 type="button"
                 className="text-primary hover:underline"
                 onClick={()=>{setOpenNewAgentDialog(true)}}
-                >
+                > Create New Agent
                   </button> 
               </FormDescription>
               <FormMessage />

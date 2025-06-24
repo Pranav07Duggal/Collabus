@@ -15,29 +15,29 @@ import { Button } from "@/components/ui/button";
 import { MoreVerticalIcon, PencilIcon, TrashIcon } from "lucide-react";
 
 interface Props {
-  agentId: string;
-  agentName: string;
+  meetingId: string;
+  meetingName: string;
   onEdit: () => void;
   onRemove: () => void;
 }
 
-const AgentIdViewHeader = ({ agentId, agentName, onEdit, onRemove }: Props) => {
+const MeetingIdViewHeader = ({ meetingId, meetingName, onEdit, onRemove }: Props) => {
   return (
     <div className="flex items-center justify-between">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild className="font-medium text-xl">
-            <Link href="/agents">
-                My Agents
+            <Link href="/meetings">
+                My Meetings
             </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
           <BreadcrumbLink asChild className="font-medium text-xl text-accent-foreground">
-            <Link href={`/agents/${agentId}`}>
-                {agentName}
+            <Link href={`/meetings/${meetingId}`}>
+                {meetingName}
             </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
@@ -65,4 +65,4 @@ const AgentIdViewHeader = ({ agentId, agentName, onEdit, onRemove }: Props) => {
   );
 };
 
-export default AgentIdViewHeader;
+export default MeetingIdViewHeader ;
