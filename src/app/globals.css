@@ -79,6 +79,8 @@
   --sidebar-accent: oklch(0.6165 0.2363 25.92);
   /* Active Item Text */
   --sidebar-accent-foreground: oklch(1 0 0);
+  /* Darker Option */
+  --sidebar-darker: oklch(0.4871 0.1968 26.72);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 }
