@@ -13,7 +13,6 @@ const Layout = ({ children }: Props) => {
           <DashboardNavbar/>
         {children}
         </main>
-            
     </SidebarProvider>
       
   )

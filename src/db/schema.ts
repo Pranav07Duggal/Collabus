@@ -96,3 +96,22 @@ export const meetings = pgTable("meetings",{
 	
 
 });
+
+export const userProfiles = pgTable("user_profiles", {
+  id: text("id").primaryKey().$defaultFn(() => nanoid()),
+
+  userId: text("user_id")
+    .notNull()
+    .unique()
+    .references(() => user.id, { onDelete: "cascade" }),
+
+  handle: text("handle").notNull().unique(), // ← derived from email
+
+  fullName: text("full_name"),
+  bio: text("bio"),
+  profileImage: text("profile_image"),
+  githubUrl: text("github_url"),
+
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});

@@ -1,4 +1,5 @@
 import { auth } from '@/lib/auth'
+import { createUserProfile } from '@/lib/user-handle'
 import HomeView from '@/modules/home/ui/views/home-view'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -12,6 +13,7 @@ const Home = async () => {
   if (!session) {
     redirect("/sign-in");
   }
+  await createUserProfile(session.user.id);
   return (
     <HomeView/>
   )
