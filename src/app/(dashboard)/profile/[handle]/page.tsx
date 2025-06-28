@@ -1,9 +1,11 @@
 import { db } from "@/db";
 import { userProfiles } from "@/db/schema";
-import UserProfileView from "@/modules/profile/ui/view/user-profile-view";
+import UserProfileView from "@/modules/profile/ui/view/profile-public-view";
 import { eq } from "drizzle-orm";
 
-export default async function UserProfilePage({ params }: { params: { handle: string };}) {
+interface Props { params: { handle: string };}
+
+export default async function UserProfilePage({ params }: Props ) {
   const  handle  = params.handle;
 
   const [profileData] = await db

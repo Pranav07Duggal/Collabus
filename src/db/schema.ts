@@ -115,3 +115,30 @@ export const userProfiles = pgTable("user_profiles", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
+
+export const skillLevelEnum = pgEnum("skill_level", [
+  "Novice",
+  "Beginner",
+  "Intermediate",
+  "Proficient",
+  "Advanced",
+  "Expert",
+  "Master",
+]);
+
+export const skillsTable = pgTable("skills", {
+  id: text("id").primaryKey().$defaultFn(() => nanoid()),
+  name: text("name").notNull().unique(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const userSkills = pgTable("user_skills", {
+  id: text("id").primaryKey().$defaultFn(() => nanoid()),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  skillId: text("skill_id").notNull().references(() => skillsTable.id, { onDelete: "cascade" }),
+  level: skillLevelEnum("level").notNull().default("Novice"),
+  isVerified: boolean("is_verified").notNull().default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+

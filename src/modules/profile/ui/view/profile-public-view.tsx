@@ -1,6 +1,5 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,16 +11,10 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
-  Github,
-  Linkedin,
-  MapPin,
-  Mail,
   ExternalLink,
-  Edit,
 } from "lucide-react";
 import ProfileSectionOne from "../components/profile-section-one";
 import React, { useState } from "react";
-import UpdateProfileDialog from "../components/update-profile-dialog";
 import { useTRPC } from "@/trpc/client";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
@@ -149,19 +142,10 @@ export default function UserProfileView({
   userGithubURL,
   userId,
 }: Props) {
-  const trpc = useTRPC();
-  const { data } = useQuery(trpc.profiles.getOne.queryOptions({ id: userId }))
-  const [updateProfileDialogOpen, setProfileDialogOpen] = useState(false);
   return (
     <>
-      <UpdateProfileDialog
-        open={updateProfileDialogOpen}
-        onOpenChange={setProfileDialogOpen}
-        initialValues={data}
-      />
       <div className="min-h-screen bg-muted py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div>
+        <div className="max-w-4xl mx-auto space-y-6">
             <Card className="overflow-hidden">
               <ProfileSectionOne
                 userName={userName}
@@ -169,11 +153,9 @@ export default function UserProfileView({
                 userImage={userImage}
                 userHandle={userHandle}
                 userGithubURL={userGithubURL}
-                onEdit={()=>setProfileDialogOpen(true)}
               />
             </Card>
-          </div>
-
+            
           <Separator />
 
           {/* Skills & Achievements Section */}
