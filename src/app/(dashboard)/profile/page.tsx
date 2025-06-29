@@ -2,7 +2,6 @@ import { db } from "@/db";
 import { userProfiles } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import ProfilePrivateView from "@/modules/profile/ui/view/profile-private-view";
-import ProfileGuideView from "@/modules/profile/ui/view/profile-private-view";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";

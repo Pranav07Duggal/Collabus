@@ -142,3 +142,33 @@ export const userSkills = pgTable("user_skills", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Github Projects
+
+export const projectVisibilityEnum = pgEnum("project_visibility", ["PUBLIC", "PRIVATE", "COMPETITION"]);
+
+export const projects = pgTable("projects", {
+  id: text("id").primaryKey().$defaultFn(() => nanoid()),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  githubUrl: text("github_url").notNull(),
+  visibility: projectVisibilityEnum("visibility").notNull().default("PRIVATE"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const projectLikes = pgTable("project_likes", {
+  id: text("id").primaryKey().$defaultFn(() => nanoid()),
+
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+
+  projectId: text("project_id")
+    .notNull()
+    .references(() => projects.id, { onDelete: "cascade" }),
+
+  createdAt: timestamp("created_at").defaultNow(),
+});

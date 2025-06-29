@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { EditIcon } from "lucide-react";
+import { BanIcon, EditIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const getSkillColor = (level: string) => {
@@ -37,69 +37,88 @@ const getSkillColor = (level: string) => {
   }
 };
 
-const levelOrder = ['Master', 'Expert', 'Advanced', 'Proficient', 'Intermediate', 'Beginner', 'Novice'];
+const levelOrder = [
+  "Master",
+  "Expert",
+  "Advanced",
+  "Proficient",
+  "Intermediate",
+  "Beginner",
+  "Novice",
+];
 
 export default function UserSkillList({ userId }: { userId: string }) {
   const trpc = useTRPC();
   const [editing, setEditing] = useState(false);
 
-  const { data: userSkills,isLoading } = useQuery(
+  const { data: userSkills, isLoading } = useQuery(
     trpc.skills.getUserSkills.queryOptions({ userId })
   );
 
   return (
     <>
-      <Card className="mb-6">
-      <CardHeader className="pb-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-          <div className="flex-1 space-y-2">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
-                <CardTitle className="text-lg">
-                  Technical Skills
-                </CardTitle>
-                <CardDescription>
-                Skills with their proficiency levels
-              </CardDescription>
-              </div>
+      <Card className="">
+        <CardHeader className="pb-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+            <div className="flex-1 space-y-2">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <CardTitle className="text-lg">Technical Skills</CardTitle>
+                  <CardDescription>
+                    Skills with their proficiency levels
+                  </CardDescription>
+                </div>
                 <div className="flex justify-between gap-x-2 gap-y-2 text-center">
                   <Button
                     className="gap-x-2 bg-muted"
-                    onClick={()=>setEditing(!editing)}
+                    onClick={() => setEditing(!editing)}
                     variant={"outline"}
                     size={"sm"}
                   >
-                    <EditIcon className="h-4 w-4 mr-2" />
-                    Add Skills to your profile
+                    {editing ? (
+                      <>
+                        <BanIcon className="text-red-500" />
+                        Close Menu
+                      </>
+                    ) : (
+                      <>
+                        <EditIcon className="h-4 w-4 mr-2" />
+                        Add Skills to your profile
+                      </>
+                    )}
                   </Button>
                 </div>
+              </div>
             </div>
           </div>
-        </div>
-      </CardHeader>
+        </CardHeader>
         <CardContent>
-        <div className="flex flex-wrap gap-2 min-h-[48px]">
+          <div className="flex flex-wrap gap-2 min-h-[48px]">
             {isLoading ? (
               <>
-              <Skeleton className="h-4 w-[25px] bg-purple-200" />
-              <Skeleton className="h-4 w-[30px] bg-red-200" />
-              <Skeleton className="h-4 w-[25px] bg-green-200" />
-              <Skeleton className="h-4 w-[20px] bg-indigo-200" />
-              <Skeleton className="h-4 w-[35px] bg-yellow-200" />
-              <Skeleton className="h-4 w-[20px] bg-gray-200" />
-              <Skeleton className="h-4 w-[45px] bg-orange-200" />
-              <Skeleton className="h-4 w-[35px] bg-red-200" />
+                <Skeleton className="h-4 w-[25px] bg-purple-200" />
+                <Skeleton className="h-4 w-[30px] bg-red-200" />
+                <Skeleton className="h-4 w-[25px] bg-green-200" />
+                <Skeleton className="h-4 w-[20px] bg-indigo-200" />
+                <Skeleton className="h-4 w-[35px] bg-yellow-200" />
+                <Skeleton className="h-4 w-[20px] bg-gray-200" />
+                <Skeleton className="h-4 w-[45px] bg-orange-200" />
+                <Skeleton className="h-4 w-[35px] bg-red-200" />
               </>
-            
             ) : (
               userSkills
                 ?.slice()
-                .sort((a, b) => levelOrder.indexOf(a.level) - levelOrder.indexOf(b.level))
+                .sort(
+                  (a, b) =>
+                    levelOrder.indexOf(a.level) - levelOrder.indexOf(b.level)
+                )
                 .map((skill) => (
                   <div key={skill.skillId}>
                     <Badge
                       variant="secondary"
-                      className={`${getSkillColor(skill.level)} transition-colors`}
+                      className={`${getSkillColor(
+                        skill.level
+                      )} transition-colors`}
                     >
                       {skill.skillName}
                     </Badge>
@@ -109,11 +128,11 @@ export default function UserSkillList({ userId }: { userId: string }) {
           </div>
         </CardContent>
       </Card>
-      {editing && 
-      <div className="animate-fade-in">
+      {editing && (
+        <div className="animate-fade-in">
           <EditSkillForm userId={userId} />
-      </div>
-        }
+        </div>
+      )}
     </>
   );
 }

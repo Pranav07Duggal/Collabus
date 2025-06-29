@@ -37,7 +37,7 @@ const ProfilePrivateView = ({
         onOpenChange={setProfileDialogOpen}
         initialValues={data}
       />
-      <div className="min-h-screen bg-muted py-8 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-max bg-muted py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto space-y-6">
         <Card className="overflow-hidden">
               <ProfileSectionOne

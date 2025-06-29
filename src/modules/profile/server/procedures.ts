@@ -1,16 +1,14 @@
 import { db } from "@/db";
 import {
-  skillLevelEnum,
   skillsTable,
   userProfiles,
   userSkills,
 } from "@/db/schema";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import { addUserSkillSchema, updateProfileSchema } from "../schemas";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { SkillLevel } from "../types";
 
 // Skills Router
 export const skillsRouter = createTRPCRouter({
