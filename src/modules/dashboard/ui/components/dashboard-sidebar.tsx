@@ -35,6 +35,11 @@ const firstSection = [
     label: "Profile",
     href: "/profile",
   },
+  {
+    icon: FolderGit,
+    label: "My Projects",
+    href:"/projects",
+  }
 ];
 
 const secondSection = [
@@ -51,11 +56,6 @@ const secondSection = [
   {
     icon: MessageCircleCode,
     label: "Project Discussions",
-    href:"/",
-  },
-  {
-    icon: FolderGit,
-    label: "My Projects",
     href:"/",
   }
 

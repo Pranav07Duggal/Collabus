@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { and, eq, sql } from "drizzle-orm";
 import { baseProjectSchema, likeProjectSchema } from "../schema";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
-import { projects, projectLikes } from "@/db/schema";
+import { projects, projectLikes, skillsTable, projectSkills, userSkills } from "@/db/schema";
 import { TRPCError } from "@trpc/server";
 
 export const projectsRouter = createTRPCRouter({
@@ -69,11 +69,53 @@ export const projectsRouter = createTRPCRouter({
   // CRUD Procedures
   addProject: protectedProcedure
     .input(baseProjectSchema)
-    .mutation(async ({ ctx, input }) => {
-      await db.insert(projects).values({
-        userId: ctx.auth.user.id,
-        ...input,
-      });
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.auth.user.id;
+  
+      // Step 1: Create Project
+      const [project] = await db
+        .insert(projects)
+        .values({
+          ...input,
+          userId,
+        })
+        .returning();
+  
+      if (!project) {
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Project creation failed" });
+      }
+  
+      // Step 2: Link techStack skill IDs (if any)
+      for (const skillId of input.techStack ?? []) {
+        // a. Link to project
+        await db.insert(projectSkills).values({
+          projectId: project.id,
+          skillId,
+        });
+  
+        // b. Add to userSkills if not already present
+        const [existing] = await db
+          .select()
+          .from(userSkills)
+          .where(
+            and(
+              eq(userSkills.userId, userId),
+              eq(userSkills.skillId, skillId)
+            )
+          )
+          .limit(1);
+  
+        if (!existing) {
+          await db.insert(userSkills).values({
+            userId,
+            skillId,
+            level: "Novice",
+            isVerified: false,
+          });
+        }
+      }
+  
+      return project;
     }),
 
   getUserProjects: protectedProcedure.query(async ({ ctx }) => {
@@ -86,7 +128,10 @@ export const projectsRouter = createTRPCRouter({
   updateProject: protectedProcedure
     .input(baseProjectSchema.extend({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      await db
+      const userId = ctx.auth.user.id;
+  
+      // Step 1: Update core project fields
+      const [updated] = await db
         .update(projects)
         .set({
           title: input.title,
@@ -95,7 +140,48 @@ export const projectsRouter = createTRPCRouter({
           visibility: input.visibility,
           updatedAt: new Date(),
         })
-        .where(eq(projects.id, input.id));
+        .where(eq(projects.id, input.id))
+        .returning();
+  
+      if (!updated) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Project not found" });
+      }
+  
+      // Step 2: Delete old links
+      await db
+        .delete(projectSkills)
+        .where(eq(projectSkills.projectId, input.id));
+  
+      // Step 3: Re-insert selected skill links (skill IDs only)
+      for (const skillId of input.techStack ?? []) {
+        await db.insert(projectSkills).values({
+          projectId: input.id,
+          skillId,
+        });
+  
+        // Step 4: Ensure user has it in their profile
+        const [existing] = await db
+          .select()
+          .from(userSkills)
+          .where(
+            and(
+              eq(userSkills.userId, userId),
+              eq(userSkills.skillId, skillId)
+            )
+          )
+          .limit(1);
+  
+        if (!existing) {
+          await db.insert(userSkills).values({
+            userId,
+            skillId,
+            level: "Novice",
+            isVerified: false,
+          });
+        }
+      }
+  
+      return updated;
     }),
 
   deleteProject: protectedProcedure

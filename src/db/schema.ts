@@ -172,3 +172,14 @@ export const projectLikes = pgTable("project_likes", {
 
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+// tech stack labels
+export const projectSkills = pgTable("project_skills", {
+  id: text("id").primaryKey().$defaultFn(() => nanoid()),
+  projectId: text("project_id")
+    .notNull()
+    .references(() => projects.id, { onDelete: "cascade" }),
+  skillId: text("skill_id")
+    .notNull()
+    .references(() => skillsTable.id, { onDelete: "cascade" }),
+});
