@@ -14,13 +14,13 @@ export default async function MyProjectsPage() {
   if (!session) {
     redirect("/sign-in");
   }
-    // Step 1: Fetch all projects for the user
+    // Step 1: SLECT(USERID) ``` pehle user id nikali
     const userProjects = await db
     .select()
     .from(projects)
     .where(eq(projects.userId, session.user.id));
 
-  // Step 2: Fetch all projectSkills + skill names
+  // Step 2: Fetch all projectSkills + skill names``` fir project id se match karke skill name nikala
   const skills = await db
     .select({
       projectId: projectSkills.projectId,
@@ -47,7 +47,7 @@ export default async function MyProjectsPage() {
 
   return (
     <>
-      <MyProjectsView initialProjects={data} />;
+      <MyProjectsView initialProjects={data} />
     </>
   );
 }

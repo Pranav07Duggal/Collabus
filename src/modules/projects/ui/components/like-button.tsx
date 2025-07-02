@@ -74,9 +74,9 @@ useEffect(() => {
       {liked ? (
         <StarFilled className="w-4 h-4 text-yellow-400 fill-yellow-400" />
       ) : (
-        <Star className="w-4 h-4" />
+        <Star className="w-4 h-4 dark:text-gray-700" />
       )}
-      <span>{count}</span>
+      <span className="dark:text-gray-700">{count}</span>
     </Button>
   );
 }

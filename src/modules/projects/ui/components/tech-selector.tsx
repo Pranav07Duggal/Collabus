@@ -27,9 +27,9 @@ export function TechStackSelector({ value, onChange }: TechStackSelectorProps) {
   };
 
   return (
-    <div className="space-y-2">
-      <label className="text-sm font-medium">Tech Stack</label>
-      <div className="flex flex-wrap gap-2 min-h-[40px]">
+    <div className="">
+      <label className="text-sm font-medium text-muted-foreground">Tech Stack Used</label>
+      <div className="flex flex-wrap gap-2 min-h-[40px] ">
         {isLoading ? (
           <>
             <Skeleton className="h-6 w-[40px]" />
@@ -43,10 +43,10 @@ export function TechStackSelector({ value, onChange }: TechStackSelectorProps) {
               key={skill.id}
               onClick={() => toggleTag(skill.id)}
               className={cn(
-                "cursor-pointer border",
+                "cursor-pointer border mt-2",
                 value.includes(skill.id)
                   ? "bg-green-600 text-white border-green-400"
-                  : "bg-muted text-black border-gray-500"
+                  : "bg-muted text-black border-gray-500 dark:text-white"
               )}
             >
               {skill.name}

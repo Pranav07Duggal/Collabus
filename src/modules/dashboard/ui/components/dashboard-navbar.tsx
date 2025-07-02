@@ -4,6 +4,7 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { PanelLeftCloseIcon, PanelLeftIcon, SearchIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import DashboardCommand from "./dashboard-command";
+import { ModeToggle } from "./mode-toggle";
 
 const DashboardNavbar = () => {
   const { state, toggleSidebar, isMobile } = useSidebar();
@@ -40,6 +41,7 @@ const DashboardNavbar = () => {
             <span className="text-xs">&#8984;K</span>
           </kbd>
         </Button>
+        <ModeToggle/>
       </nav>
     </>
   );
