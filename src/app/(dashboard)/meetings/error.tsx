@@ -4,7 +4,7 @@ import { ErrorState } from "@/components/error-state"
 
 const ErrorPage = () => {
   return (
-    <ErrorState title="Error Loading Meetings" description="Something Went Wrong"/>
+    <ErrorState title="Error Loading CollabX" description="Something Went Wrong. Try again later"/>
   )
 }
 
