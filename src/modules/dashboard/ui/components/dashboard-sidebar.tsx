@@ -12,7 +12,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import { BotIcon, CodeXml, FolderGit, MessageCircleCode, UserRoundPenIcon, UsersRound, VideoIcon } from "lucide-react";
+import { BookOpen, BotIcon, CodeXml, FolderGit, MessageCircleCode, UserRoundPenIcon, UsersRound, VideoIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -20,11 +20,6 @@ import React from "react";
 import DashboardUserButton from "./dashboard-user-button";
 
 const firstSection = [
-  {
-    icon: VideoIcon,
-    label: "Meetings",
-    href: "/meetings",
-  },
   {
     icon: BotIcon,
     label: "Agents",
@@ -39,20 +34,22 @@ const firstSection = [
     icon: FolderGit,
     label: "My Projects",
     href:"/projects",
-  }
-];
-
-const secondSection = [
+  },
   {
     icon: UsersRound,
     label: "People",
-    href: "/",
+    href: "/people",
   },
   {
-    icon: CodeXml,
-    label: "Hackathons",
-    href:"/",
+    icon: BookOpen,
+    label: "Journals",
+    href:"/journals",
   },
+];
+
+const secondSection = [
+  
+  
   {
     icon: MessageCircleCode,
     label: "Project Discussions",
