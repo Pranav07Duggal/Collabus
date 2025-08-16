@@ -33,16 +33,5 @@ export const columns: ColumnDef<AgentsGetMany[number]>[] = [
     )
     
   },
-  {
-    accessorKey:"meetingCount",
-    header:"Meetings",
-    cell: ({row}) => (
-        <Badge
-        variant="outline" 
-        className="felx items-center gap-2  bg-green-400 size-10 rounded-xl">
-            <VideoIcon className="[&svg]:size-7 text-blue-700 "/>
-        </Badge>
-    )
-
-  }
+  
 ];
