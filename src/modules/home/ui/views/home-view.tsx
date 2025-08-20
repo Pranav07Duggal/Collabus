@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { FYPGrid } from "./fyp-grid";
 
 
 export default function HomeView() {
@@ -10,9 +11,14 @@ export default function HomeView() {
   
   if(session){
     return(
-      <div className="flex flex-col p-4 gap-y-4">
+      <div className="bg-muted">
+      <div className="p-4">
+        <FYPGrid />
+      </div>
+
+      <div className="flex flex-col p-4 gap-y-4 flex items-center justify-center">
         <h1>
-        hi!  {session.user.name}
+        {session.user.name}'s Dashboard
       </h1>
       <Button
       onClick={ ()=>{
@@ -25,6 +31,7 @@ export default function HomeView() {
         })
       }}
       >Sign Out</Button>
+      </div>
       </div>
     )
   }
