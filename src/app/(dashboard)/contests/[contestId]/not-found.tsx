@@ -92,7 +92,7 @@ export default function CreateContestPage() {
   const [newRule, setNewRule] = useState("")
   const [newTag, setNewTag] = useState("")
 
-  const handleInputChange = (field: keyof ContestFormData, value: any) => {
+  const handleInputChange = (field: keyof ContestFormData, value: unknown) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 

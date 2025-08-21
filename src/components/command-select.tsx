@@ -25,7 +25,6 @@ export const CommandSelect = ({
   onSearch,
   value,
   placeholder = "Select an Option",
-  isSearchable,
   className,
 }: Props) => {
     const [open, setOpen] = useState(false);
@@ -71,7 +70,7 @@ export const CommandSelect = ({
                         <CommandItem
                         key={option.id}
                         onSelect={()=>{
-                            onSelect(option.value),
+                            onSelect(option.value);
                             setOpen(false)
                         }
                         }

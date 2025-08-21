@@ -82,7 +82,7 @@ export default function LeaderboardPage({ params }: LeaderboardPageProps) {
             </CardHeader>
             <CardContent className="p-0">
               <div className="space-y-0">
-                {leaderboardData.map((team, index) => (
+                {leaderboardData.map((team) => (
                   <div
                     key={team.rank}
                     className={`flex items-center gap-4 p-4 border-b border-muted last:border-b-0 ${

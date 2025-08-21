@@ -14,10 +14,10 @@ const ProfileGuidePage = async () => {
   if (!session) {
     redirect("/sign-in");
   }
-  const [userHandle] = await db
-    .select({ handle: userProfiles.handle })
-    .from(userProfiles)
-    .where(eq(userProfiles.userId, session.user.id));
+  // const [userHandle] = await db
+  //   .select({ handle: userProfiles.handle })
+  //   .from(userProfiles)
+  //   .where(eq(userProfiles.userId, session.user.id));
 
   const [profileData] = await db
     .select()

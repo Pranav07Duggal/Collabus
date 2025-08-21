@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -160,7 +160,6 @@ const mockProject = {
 };
 
 export default function ProjectDetailPage() {
-  const params = useParams();
   const router = useRouter();
   const [showJoinDialog, setShowJoinDialog] = useState(false);
   const [showUpdateDialog, setShowUpdateDialog] = useState(false);
